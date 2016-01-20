@@ -8,18 +8,18 @@ library(RJSONIO)
 library(httr)
 library(stringr)
 
-consumer_key    <- "your consumer key"
-consumer_secret <- "your consumer secret"
-access_token    <- "your access token"
-access_secret   <- "your access secret"  
+consumer_key    <- "Your consumer key"
+consumer_secret <- "Your consumer secret"
+access_token    <- "Your access token"
+access_secret   <- "Your access secret"  
 
-
+# Twitter Authentication using direct Authentication
 setup_twitter_oauth(consumer_key,consumer_secret,access_token,access_secret) 
- 
 token <- get("oauth_token", twitteR:::oauth_cache)
 token$cache()
 
 shinyServer(function(input, output, session) {
+
 
     # function used to search tweets that meet the specified query
     TweetData<-function(searchTw)
@@ -28,7 +28,7 @@ shinyServer(function(input, output, session) {
         twtList<-searchTwitter(searchTw,n=maxTw(), langInput())
         twtLista<- do.call("rbind",lapply(twtList,as.data.frame))
         
-        # searchTwitter could return an empty List
+        # searchTwitter might return an empty List
         # to avoid an error message when this happens, then a list is created with one element
         if (length(twtLista)==0) {
             twtLista <- dataFrame(colClasses("clilcllclccillll"), nrow=1)
@@ -41,7 +41,6 @@ shinyServer(function(input, output, session) {
             twtLista$reteetCount<-0
         }
         
-        twtLista$text<-iconv(enc2native(twtLista$text), sub = "")  
         return(twtLista)
         
     }  
@@ -65,10 +64,11 @@ shinyServer(function(input, output, session) {
 
         })
  
+    # Word Cloud Plotting
     output$wordPlot <- renderPlot({ wordcloud(paste((Lista())$text, collapse=" "), min.freq = 5, 
                        random.color=TRUE, max.words=50 ,colors=brewer.pal(8, "Dark2"))  
                                   })
-    
+    # Plot of tweets using a Table format
     output$table <- renderDataTable({data.frame(user=(Lista()$screenName),
                                                 Tweets=(Lista()$text),
                                                 Created=(Lista()$created),

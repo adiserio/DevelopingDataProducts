@@ -1,12 +1,21 @@
-library(shiny)
+# SearchForTweets
+#
+# Author    :   Angela Di Serio
+# Date      :   January, 2016  
+#               Developing Data Products: Coursera
+#               Course Project
+#
+# Description:  A shiny app that allows you to find tweets using a set of words
 
+library(shiny)
 shinyUI(fluidPage(
-    
-    # Application title
-    titlePanel("Tweets"),
+
+        titlePanel("SearchForTweets"),
 
     sidebarLayout(
         sidebarPanel(
+            # Search options
+            
             textInput('WordTwitter', label = 'Enter word(s) to be searched ',value="word"),
             
             selectInput("language","Choose a language:", 
